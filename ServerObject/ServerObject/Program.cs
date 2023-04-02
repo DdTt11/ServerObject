@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
- 
+using System.Threading;
+
 ServerObject server = new ServerObject();
 Console.WriteLine("Сервер включён " + DateTime.Now);
 await server.ListenAsync();
@@ -15,18 +16,22 @@ class ServerObject
         { 
             TcpClient tcpClient = await _tcpListener.AcceptTcpClientAsync(); 
             Console.WriteLine("Клиент соединился " + DateTime.Now + " с адреса " + IPAddress.Parse(((IPEndPoint)tcpClient.Client.RemoteEndPoint!).Address.ToString()) + ":" + ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Port);
-            ClientObject clientObject = new ClientObject(tcpClient); 
+            ClientObject clientObject = new ClientObject(tcpClient);
+            Thread th = new Thread(clientObject.SendMessageAsync);
+            th.Start();
             await Task.Run(clientObject.ProcessAsync);
         }
     }
 }
-class ClientObject
+public class ClientObject
 {
     private StreamReader Reader { get; }
+    private StreamWriter Writer { get; }
     public ClientObject(TcpClient tcpClient)
     {
         var stream = tcpClient.GetStream();
         Reader = new StreamReader(stream);
+        Writer = new StreamWriter(stream);
     }
  
     public async Task ProcessAsync()
@@ -37,7 +42,8 @@ class ClientObject
             {
                 string? message = await Reader.ReadLineAsync(); 
                 if (message == null) continue;
-                Console.WriteLine("Сервер получил " + DateTime.Now + " " + message);
+                Console.WriteLine("Сервер получил " + DateTime.Now + ": " + message);
+                Console.ReadLine();
             }
             catch 
             { 
@@ -47,13 +53,13 @@ class ClientObject
         }
     }
     
-    public async Task SendMessageAsync(StreamWriter streamWriter)
+    public void SendMessageAsync()
     {
         while (true)
         {
             string? message = Console.ReadLine();
-            await streamWriter.WriteLineAsync(message);
-            await streamWriter.FlushAsync();
+            Writer.WriteLine(message);
+            Writer.Flush();
         }
     }
 }
