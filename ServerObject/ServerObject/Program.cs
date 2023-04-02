@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 
 ServerObject server = new ServerObject();
 Console.WriteLine("Сервер включён " + DateTime.Now);
@@ -14,20 +13,23 @@ class ServerObject
         _tcpListener.Start();
         while (true)
         { 
-            TcpClient tcpClient = await _tcpListener.AcceptTcpClientAsync(); 
-            Console.WriteLine("Клиент соединился " + DateTime.Now + " с адреса " + IPAddress.Parse(((IPEndPoint)tcpClient.Client.RemoteEndPoint!).Address.ToString()) + ":" + ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Port);
+            TcpClient tcpClient = await _tcpListener.AcceptTcpClientAsync();
+            Console.WriteLine("Клиент соединился " 
+                              + DateTime.Now 
+                              + " с адреса " 
+                              + IPAddress.Parse(((IPEndPoint)tcpClient.Client.RemoteEndPoint!).Address.ToString()) 
+                              + ":" 
+                              + ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Port);
             ClientObject clientObject = new ClientObject(tcpClient);
-            Thread th = new Thread(clientObject.SendMessageAsync);
-            th.Start();
             await Task.Run(clientObject.ProcessAsync);
         }
     }
 }
-public class ClientObject
+class ClientObject
 {
     private StreamReader Reader { get; }
     private StreamWriter Writer { get; }
-    public ClientObject(TcpClient tcpClient)
+    protected internal ClientObject(TcpClient tcpClient)
     {
         var stream = tcpClient.GetStream();
         Reader = new StreamReader(stream);
@@ -36,28 +38,30 @@ public class ClientObject
  
     public async Task ProcessAsync()
     {
+        var th = new Thread(SendMessage);
+        th.Start();
+        
         while (true) 
         {
             try 
             {
-                string? message = await Reader.ReadLineAsync(); 
+                var message = await Reader.ReadLineAsync(); 
                 if (message == null) continue;
                 Console.WriteLine("Сервер получил " + DateTime.Now + ": " + message);
-                Console.ReadLine();
             }
             catch 
             { 
-                Console.WriteLine("Клиент разорвал соединение"); 
+                Console.WriteLine("Клиент разорвал соединение");
                 break;
             }
         }
     }
     
-    public void SendMessageAsync()
+    private void SendMessage()
     {
         while (true)
         {
-            string? message = Console.ReadLine();
+            var message = Console.ReadLine();
             Writer.WriteLine(message);
             Writer.Flush();
         }
