@@ -1,0 +1,15 @@
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\bin\Debug\net6.0\ServerObject.exe
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\bin\Debug\net6.0\ServerObject.deps.json
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\bin\Debug\net6.0\ServerObject.runtimeconfig.json
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\bin\Debug\net6.0\ServerObject.dll
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\bin\Debug\net6.0\ServerObject.pdb
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\obj\Debug\net6.0\ServerObject.csproj.AssemblyReference.cache
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\obj\Debug\net6.0\ServerObject.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\obj\Debug\net6.0\ServerObject.AssemblyInfoInputs.cache
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\obj\Debug\net6.0\ServerObject.AssemblyInfo.cs
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\obj\Debug\net6.0\ServerObject.csproj.CoreCompileInputs.cache
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\obj\Debug\net6.0\ServerObject.dll
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\obj\Debug\net6.0\refint\ServerObject.dll
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\obj\Debug\net6.0\ServerObject.pdb
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\obj\Debug\net6.0\ServerObject.genruntimeconfig.cache
+C:\Users\пк\RiderProjects\ServerObject\ServerObject\obj\Debug\net6.0\ref\ServerObject.dll
